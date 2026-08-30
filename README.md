@@ -1,2 +1,2 @@
 # automotive-radar-vv
-Radar FCW SIL Verification &amp; Python Test Automation
+Requirements-Based Automotive Radar Verification & Test Automation
