@@ -35,7 +35,7 @@ Note:
 2.0 s 값은 Euro NCAP, ISO 또는 특정 OEM 요구사항에서 직접 가져온 값이 아니다.
 
 
-## ASM-002 — Relative Velocity Sign Convention
+ASM-002 — Relative Velocity Sign Convention
 
 Assumption:
 
@@ -45,27 +45,33 @@ relative_velocity = target_velocity - ego_velocity
 
 Therefore:
 
-- relative_velocity < 0 : closing target
-- relative_velocity = 0 : constant relative distance
-- relative_velocity > 0 : opening target
+relative_velocity < 0: distance between ego and target is decreasing
+relative_velocity = 0: relative distance remains constant
+relative_velocity > 0: distance between ego and target is increasing
+
+For TTC calculation, a closing condition is considered only when:
+
+relative_velocity < 0
+
+and the closing speed is defined as:
+
+closing_speed = -relative_velocity
 
 Example:
 
-Ego velocity = 20 m/s  
+Ego velocity    = 20 m/s
 Target velocity = 10 m/s
 
 Relative velocity = 10 - 20 = -10 m/s
+Closing speed     = 10 m/s
 
 This means the distance between the ego vehicle and the target decreases by 10 m every second.
 
-Classification:
-Project Convention
+Classification: Project Convention
 
-Purpose:
-TTC 계산 및 테스트 입력값의 부호 기준을 일관되게 정의하기 위해 사용한다.
+Purpose: TTC 계산 및 테스트 입력값의 상대속도 부호 기준을 일관되게 정의하기 위해 사용한다.
 
-External Requirement:
-No
+External Requirement: No
 
 
 ## ASM-003 — Single Target Model
