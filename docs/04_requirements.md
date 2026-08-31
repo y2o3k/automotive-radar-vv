@@ -10,68 +10,111 @@ Project Convention을 기반으로 작성되었으며,
 실제 OEM 또는 법규 요구사항을 의미하지 않는다.
 
 
-## REQ-FCW-001 — FCW Activation
-
+## REQ-FCW-001 — FCW 활성화(Activation)
 Requirement:
 
-If a forward target is closing and the calculated TTC is less than or equal to 2.0 seconds,
-the system shall set the FCW state to ON.
+전방 타깃의 relative_velocity < 0 m/s이고 계산된 TTC가 2.0초 이하인 경우,
+시스템은 FCW 상태를 ON으로 설정해야 한다.
 
 Input:
-- Target Range [m]
-- Relative Velocity [m/s]
+
+Target Range [m]
+Relative Velocity [m/s]
 
 Output:
-- FCW = ON
+
+FCW State = ON
 
 Source:
-- ASM-001 — FCW TTC Threshold
-- ASM-002 — Relative Velocity Sign Convention
-- ASM-004 — Constant Relative Velocity
+
+ASM-001 — FCW TTC Threshold
+ASM-002 — Relative Velocity Sign Convention
+ASM-003 — Single Target Assumption
+ASM-004 — Constant Relative Velocity Assumption
 
 Verification Method:
+
+Test
+
+## REQ-FCW-002 — FCW 비활성화: TTC 임계값 초과 (Deactivation Above Threshold)
+전방 타깃의 relative_velocity < 0 m/s이고 계산된 TTC가 2.0초를 초과하는 경우,
+시스템은 FCW 상태를 OFF로 설정해야 한다.
+
+Input:
+
+Target Range [m]
+Relative Velocity [m/s]
+
+Output:
+
+FCW State = OFF
+
+Source:
+
+ASM-001 — FCW TTC Threshold
+ASM-002 — Relative Velocity Sign Convention
+ASM-003 — Single Target Assumption
+ASM-004 — Constant Relative Velocity Assumption
+
+Verification Method:
+
 Test
 
 
-## REQ-FCW-002 — FCW Deactivation Above Threshold
+## REQ-FCW-003 — 비접근 타깃 처리(Non-Closing Target)
 
 Requirement:
 
-If a forward target is closing and the calculated TTC is greater than 2.0 seconds,
-the system shall set the FCW state to OFF.
+relative_velocity >= 0 m/s인 경우,
+시스템은 FCW 상태를 OFF로 설정해야 한다.
 
 Input:
-- Target Range [m]
-- Relative Velocity [m/s]
+
+Target Range [m]
+Relative Velocity [m/s]
 
 Output:
-- FCW = OFF
+
+FCW State = OFF
 
 Source:
-- ASM-001 — FCW TTC Threshold
-- ASM-002 — Relative Velocity Sign Convention
-- ASM-004 — Constant Relative Velocity
+
+ASM-002 — Relative Velocity Sign Convention
+ASM-003 — Single Target Assumption
 
 Verification Method:
+
 Test
 
-
-## REQ-FCW-003 — Non-Closing Target
+## REQ-FCW-004 — TTC 계산
 
 Requirement:
 
-If the relative velocity is greater than or equal to 0 m/s,
-the system shall set the FCW state to OFF.
+전방 타깃의 relative_velocity < 0 m/s인 경우,
+시스템은 다음 식을 사용하여 closing_speed를 계산해야 한다.
+
+closing_speed = -relative_velocity
+
+시스템은 계산된 closing_speed와 target_range를 사용하여 TTC를 다음과 같이 계산해야 한다.
+
+TTC = target_range / closing_speed
 
 Input:
-- Target Range [m]
-- Relative Velocity [m/s]
+
+Target Range [m]
+Relative Velocity [m/s]
 
 Output:
-- FCW = OFF
+
+TTC [s]
 
 Source:
-- ASM-002 — Relative Velocity Sign Convention
+
+ASM-002 — Relative Velocity Sign Convention
+ASM-004 — Constant Relative Velocity Assumption
 
 Verification Method:
+
 Test
+
+
