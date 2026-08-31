@@ -5,3 +5,12 @@ TC-FCW-002,REQ-FCW-001,Boundary,Verify FCW ON at TTC threshold,20.0,-10.0,2.0,ON
 TC-FCW-003,REQ-FCW-002,Boundary,Verify FCW OFF above TTC threshold,21.0,-10.0,2.1,OFF,
 TC-FCW-004,REQ-FCW-003,Equivalence,Verify FCW OFF when relative velocity is zero,20.0,0.0,,OFF,
 TC-FCW-005,REQ-FCW-003,Equivalence,Verify FCW OFF when target is moving away,20.0,5.0,,OFF,
+
+
+test_case_id,requirement_id,test_type,objective,range_m,relative_velocity_mps,expected_ttc_s,expected_fcw,result
+TC-FCW-001,REQ-FCW-001;REQ-FCW-004,Boundary,Verify FCW ON below TTC threshold,19.0,-10.0,1.9,ON,
+TC-FCW-002,REQ-FCW-001;REQ-FCW-004,Boundary,Verify FCW ON at TTC threshold,20.0,-10.0,2.0,ON,
+TC-FCW-003,REQ-FCW-002;REQ-FCW-004,Boundary,Verify FCW OFF above TTC threshold,21.0,-10.0,2.1,OFF,
+TC-FCW-004,REQ-FCW-003,Equivalence,Verify FCW OFF when relative velocity is zero,20.0,0.0,,OFF,
+TC-FCW-005,REQ-FCW-003,Equivalence,Verify FCW OFF when target is moving away,20.0,5.0,,OFF,
+
