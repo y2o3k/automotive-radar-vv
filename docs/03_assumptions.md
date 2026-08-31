@@ -35,7 +35,7 @@ Note:
 2.0 s 값은 Euro NCAP, ISO 또는 특정 OEM 요구사항에서 직접 가져온 값이 아니다.
 
 
-##ASM-002 — Relative Velocity Sign Convention
+## ASM-002 — Relative Velocity Sign Convention
 
 Assumption:
 
