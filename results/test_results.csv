@@ -1,0 +1,7 @@
+test_case_id,requirement_id,range_m,relative_velocity_mps,expected_ttc_s,actual_ttc_s,expected_fcw,actual_fcw,result
+TC-FCW-001,REQ-FCW-001;REQ-FCW-004,19.0,-10.0,1.9,1.9,ON,ON,PASS
+TC-FCW-002,REQ-FCW-001;REQ-FCW-004,20.0,-10.0,2.0,2.0,ON,ON,PASS
+TC-FCW-003,REQ-FCW-002;REQ-FCW-004,21.0,-10.0,2.1,2.1,OFF,OFF,PASS
+TC-FCW-004,REQ-FCW-003,20.0,0.0,,,OFF,OFF,PASS
+TC-FCW-005,REQ-FCW-003,20.0,5.0,,,OFF,OFF,PASS
+TC-FCW-006,REQ-FCW-001;REQ-FCW-004,45.0,-30.0,1.5,1.5,ON,ON,PASS

@@ -1,16 +1,21 @@
 import csv
+import os 
 
 from src.fcw import evaluate_fcw
 
 
 TEST_CASE_FILE = "testcases/test_cases.csv"
+RESULT_FILE = "results/test_results.csv"
 
+os.makedirs("results", exist_ok=True)
+results = []
 
 with open(TEST_CASE_FILE, newline="", encoding="utf-8") as csvfile:
     test_cases = csv.DictReader(csvfile)
 
     for test_case in test_cases:
         test_case_id = test_case["test_case_id"]
+        requirement_id = test_case["requirement_id"]
 
         range_m = float(test_case["range_m"])
         relative_velocity_mps = float(test_case["relative_velocity_mps"])
@@ -44,3 +49,35 @@ with open(TEST_CASE_FILE, newline="", encoding="utf-8") as csvfile:
             "| Actual FCW:", actual_fcw,
             "| Result:", result
         )
+
+        results.append({
+            "test_case_id": test_case_id,
+            "requirement_id": requirement_id,
+            "range_m": range_m,
+            "relative_velocity_mps": relative_velocity_mps,
+            "expected_ttc_s": expected_ttc,
+            "actual_ttc_s": actual_ttc,
+            "expected_fcw": expected_fcw,
+            "actual_fcw": actual_fcw,
+            "result": result
+        })
+
+with open(RESULT_FILE, "w", newline="", encoding="utf-8") as csvfile:
+    fieldnames = [
+        "test_case_id",
+        "requirement_id",
+        "range_m",
+        "relative_velocity_mps",
+        "expected_ttc_s",
+        "actual_ttc_s",
+        "expected_fcw",
+        "actual_fcw",
+        "result"
+    ]
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerows(results)
+
+
+print()
+print("Test results saved to", RESULT_FILE)
