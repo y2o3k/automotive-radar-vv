@@ -77,30 +77,19 @@ External Requirement: No
 ## ASM-003 — Single Target Model
 
 Assumption:
-V0.1에서는 하나의 전방 target만 존재한다고 가정한다.
 
-Classification:
-Scope Assumption
+The V0.1 verification scope considers only one target vehicle located in front of the ego vehicle.
 
-Purpose:
-초기 프로토타입에서는 TTC 계산과 FCW 경계조건 검증에 집중하고,
-multi-target tracking 및 object selection 문제는 제외하기 위함이다.
+The target vehicle is assumed to be the object used directly for TTC calculation and FCW decision.
 
-External Requirement:
-No
+Multiple-target scenarios and target selection logic are outside the scope of V0.1.
 
+Classification: Project Scope Assumption
+
+Purpose: 복수 객체 선택이나 타깃 추적 로직을 제외하고 TTC 기반 FCW 경계 검증에 집중하기 위해 사용한다.
+
+External Requirement: No
 
 ## ASM-004 — Constant Relative Velocity
 
-Assumption:
-TTC 계산 시 target과 ego vehicle의 상대속도는 계산 구간 동안 일정하다고 가정한다.
-
-Classification:
-Model Assumption
-
-Purpose:
-V0.1에서 TTC 계산을 단순화하고
-FCW 판단 로직 검증에 집중하기 위함이다.
-
-External Requirement:
-No
+ㅍ
