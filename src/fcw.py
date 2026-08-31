@@ -5,8 +5,30 @@
 #relative_velocity_mps >= 0 : 충돌 방향으로 접근하지 않으므로 TTC는 계산하지 않음. 
 #접근 중이면 TTC = range / closing speed 
 
-def calculate_ttc(range_m, relative_velocity_mps):
-  
-  if relative_velocity_mps >= 0:
-      return None
-  return range_m / (-relative_velocity_mps)
+FCW_TTC_THRESHOLD_S = 2.0
+
+
+def calculate_ttc(target_range_m, relative_velocity_mps):
+    """Calculate TTC for a closing target."""
+
+    if relative_velocity_mps >= 0:
+        return None
+
+    closing_speed_mps = -relative_velocity_mps
+    ttc_s = target_range_m / closing_speed_mps
+
+    return ttc_s
+
+
+def evaluate_fcw(target_range_m, relative_velocity_mps):
+    """Determine FCW state based on TTC."""
+
+    ttc_s = calculate_ttc(target_range_m, relative_velocity_mps)
+
+    if ttc_s is None:
+        return None, "OFF"
+
+    if ttc_s <= FCW_TTC_THRESHOLD_S:
+        return ttc_s, "ON"
+
+    return ttc_s, "OFF"
