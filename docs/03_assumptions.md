@@ -38,18 +38,31 @@ Note:
 ## ASM-002 — Relative Velocity Sign Convention
 
 Assumption:
-Negative relative velocity indicates a closing target.
 
-Examples:
-- -10 m/s : target is approaching
-- 0 m/s   : no relative longitudinal movement
-- +10 m/s : target is moving away
+Relative velocity is defined as:
+
+relative_velocity = target_velocity - ego_velocity
+
+Therefore:
+
+- relative_velocity < 0 : closing target
+- relative_velocity = 0 : constant relative distance
+- relative_velocity > 0 : opening target
+
+Example:
+
+Ego velocity = 20 m/s  
+Target velocity = 10 m/s
+
+Relative velocity = 10 - 20 = -10 m/s
+
+This means the distance between the ego vehicle and the target decreases by 10 m every second.
 
 Classification:
 Project Convention
 
 Purpose:
-TTC 계산 및 테스트 입력값을 일관된 방식으로 정의하기 위해 사용한다.
+TTC 계산 및 테스트 입력값의 부호 기준을 일관되게 정의하기 위해 사용한다.
 
 External Requirement:
 No
