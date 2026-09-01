@@ -90,6 +90,31 @@ Purpose: 복수 객체 선택이나 타깃 추적 로직을 제외하고 TTC 기
 
 External Requirement: No
 
-## ASM-004 — Constant Relative Velocity
 
-ㅍ
+
+# ASM-004 — Constant Relative Velocity
+
+Assumption:
+
+V0.1에서는 TTC 계산 시 차량 간 상대속도가 일정하다고 가정한다.
+
+차량의 가속 및 감속은 고려하지 않으며,
+현재 Target Range와 Closing Speed를 사용하여 TTC를 계산한다.
+
+Classification:
+
+Engineering Assumption
+
+Purpose:
+
+가속 및 감속에 따른 시간 변화 모델을 제외하고,
+현재 거리와 상대속도를 이용한 단순 TTC 계산에 집중하기 위해 설정하였다.
+
+External Requirement:
+
+No
+
+Note:
+
+본 가정은 V0.1의 단순화된 TTC 계산 모델을 위해 정의한
+프로젝트 내부 가정이며, 실제 OEM 또는 법규 요구사항을 의미하지 않는다.
