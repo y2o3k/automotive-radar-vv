@@ -76,3 +76,46 @@ Note:
 
 Official Reference:
 https://www.iso.org/standard/78954.html
+
+
+## SRC-004 — Python `sys.exit()`
+
+Organization:
+
+Python Software Foundation
+
+Document:
+
+Python 3.9 Standard Library — `sys.exit()`
+
+Purpose:
+
+Python 프로그램이 실행 결과를 종료 코드로 전달하는 방법을 이해하기 위한 참고 자료.
+
+Python 공식 문서에서는 종료 코드 0을 정상 종료로 보고,
+0이 아닌 값을 비정상 종료 상태로 설명한다.
+
+Used For:
+
+- 모든 Test Case가 PASS한 경우 정상 종료 상태 전달
+- 하나 이상의 Test Case가 FAIL한 경우 비정상 종료 상태 전달
+- 향후 Test Automation 환경에서 테스트 성공과 실패 판정
+
+Note:
+
+Python 공식 문서는 종료 코드의 기본 의미를 제공한다.
+
+본 프로젝트에서 모든 Test Case가 PASS하면 종료 코드 0,
+하나 이상의 Test Case가 FAIL하면 종료 코드 1을 사용한다는 구체적인 기준은
+별도의 Project Convention으로 정의한다.
+
+Official Reference:
+
+https://docs.python.org/3.9/library/sys.html#sys.exit
+
+
+
+
+
+
+
