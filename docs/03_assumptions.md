@@ -1,6 +1,6 @@
 # Engineering Assumptions
 
-본 문서는 프로젝트에서 사용하는 Engineering Assumption을 관리하기 위한 문서이다.
+본 문서는 프로젝트에서 사용하는 Engineering Assumption과 Project Convention을 관리하기 위한 문서이다.
 
 외부 표준 또는 공개 시험 프로토콜에서 직접 정의된 요구사항과,
 개인 프로젝트의 검증 목적을 위해 임의로 설정한 조건을 구분하여 관리한다.
@@ -118,3 +118,34 @@ Note:
 
 본 가정은 V0.1의 단순화된 TTC 계산 모델을 위해 정의한
 프로젝트 내부 가정이며, 실제 OEM 또는 법규 요구사항을 의미하지 않는다.
+
+## ASM-005 - 테스트 러너 종료 코드 규칙
+
+Convention: 
+모든 Test Case가 Pass한 경우, 테스트 러너는 종료 코드 0으로 실행을 종료한다. 
+하나 이상의 Test Case가 Fail한 경우, 테스트 러너는 종료 코드 1로 실행을 종료한다. 
+
+Classification: Project Convention
+Source: SRC-004 - Python `sys.exit()`
+
+Purpose:
+개별 Test Case의 PASS/FAIL 결과를 테스트 실행 전체의 종료 상태로 변환하여,
+향후 Test Automation 환경이 테스트 성공과 실패를 판정할 수 있도록 한다.
+
+Scope:
+
+본 규칙은 `run_tests.py`가 모든 Test Case를 정상적으로 실행한 후
+최종 결과를 판정하는 경우에 적용한다.
+
+입력 파일 오류나 프로그램 실행 중 발생하는 예외 처리는
+현재 단계의 범위에 포함하지 않는다.
+
+
+External Requirement: No
+
+Note:
+종료 코드 0과 0이 아닌 값의 의미는 Python 공식 문서를 참고하였다.
+
+FAIL 발생 시 종료 코드 1을 사용한다는 구체적인 값은
+본 프로젝트에서 정의한 Project Convention이다.
+
