@@ -1,7 +1,7 @@
 # Test Runner Exit Code Test Cases 
 본 문서는 V0.2에서 추가하는 Test Runner 종료 코드 요구사항을 검증하기 위한 Test Case를 정의한다. 
 
-현재 Test Case는 설계만 완료된 상태이며, 코드 구현 및 실행 전까지 상태를 Planned로 관리한다. 
+본 문서의 Test Case는 V0.2 Test Runner 구현 후 실행되었으며, 실행 결과를 Actual Result와 Status에 기록한다.
  
 ## TC-RUN-001 - 모든 테스트 통과 시 종료 코드 확인 
 Related Requirement: 
@@ -28,11 +28,17 @@ Expected Result:
 - 6개 Test Case가 모두 PASS
 - Process Exit Code: 0
 
-Actual Result: Not Executed
-Status: Planned
+Actual Result:
+
+- 6개 Test Case가 모두 PASS
+- Process Exit Code: 0
+
+Status:
+
+PASS
 
 ## TC-RUN-002 - 테스트 실패 발생 시 종료 코드 확인
-Related Requirment:
+Related Requirement:
 REQ-RUN-002 - 테스트 실패 발생 시 비정상 종료 
 
 Test Type:  Negative Test
@@ -42,7 +48,7 @@ Objective: 하나 이상의 Test Case 결과가 FAIL인 경우,
 Test Runner가 프로세스 종료 코드 1로 실행을 종료하는지 확인한다. 
 
 Mutation Condition: 
-Mut-001 - FCW TTC 경계 연산자 변경 
+MUT-001 - FCW TTC 경계 연산자 변경
 
 원본조건: ttc_s <= FCW_TTC_THRESHOLD_S
 변경조건: ttc_s < FCW_TTC_THRESHOLD_S
@@ -74,7 +80,23 @@ Postcondition:
 - 원본 코드를 다시 실행했을 때 6개 Test Case가 모두 PASS한 상태
 
 
-Actual Result: Not Executed
-Status: Planned (아직 코드를 구현하거나 실제 실행하지 않았기 떄문 , 계횐된 시험과 실행 완료된 시험을 구분해야함) 
+Before Implementation Observation:
 
+- `TC-FCW-002`: FAIL
+- 나머지 5개 Test Case: PASS
+- Process Exit Code: 0
+- MUT-001은 검출됐지만 REQ-RUN-002는 충족되지 않음
+
+Actual Result:
+
+- `TC-FCW-002`: FAIL
+- 나머지 5개 Test Case: PASS
+- Process Exit Code: 1
+- MUT-001: Detected
+- Mutation 복원 후 6개 Test Case가 모두 PASS
+- 복원 후 Process Exit Code: 0
+
+Status:
+
+PASS
 
