@@ -1,0 +1,44 @@
+name: FCW validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fcw-tests:
+    name: FCW regression and failure detection
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the tested revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12'
+
+      - name: Run FCW regression
+        run: python run_tests.py --output results/ci/test_results.csv
+
+      - name: Check that defects and invalid inputs fail the runner
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          mkdir -p results/ci
+          python -m unittest discover -s tests -v 2>&1 | tee results/ci/runner_checks.log
+
+      - name: Keep test evidence even when a test fails
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: fcw-test-evidence
+          path: results/ci/
+          if-no-files-found: error
+          retention-days: 14
