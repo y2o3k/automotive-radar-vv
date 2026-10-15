@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FCW · 눈으로 보는 검증 실습실</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<main>
+ <header><div><div class="eyebrow">AUTOMOTIVE RADAR V&V / LAB 01</div><h1>눈으로 보는 FCW 검증</h1><p>앞차에 가까워질 때, 경고는 정확한 순간에 켜질까?</p></div><span class="badge">학습용 SIL · C 코드 실행</span></header>
+ <div class="flow"><span>① 차량 상태 생성</span><b>→</b><span>② C 코드가 TTC·경고 계산</span><b>→</b><span>③ 요구사항과 결과 비교</span></div>
+ <section class="toolbar"><label for="scenario">주행 상황</label><select id="scenario"><option value="approach">앞차에 접근 · 상대속도 −10 m/s</option><option value="steady">같은 속도로 주행 · 상대속도 0 m/s</option><option value="away">앞차가 멀어짐 · 상대속도 +5 m/s</option></select><button id="rerun">C 코드 다시 실행</button><span id="status" role="status">C 실행 중…</span></section>
+ <div class="workspace">
+  <section class="panel scene"><div class="panel-title"><h2>가상 주행</h2><span>위에서 본 모습 · 내 차 기준</span></div>
+   <svg viewBox="0 0 820 280" role="img" aria-label="내 차와 앞차의 거리 변화"><defs><pattern id="lane" width="70" height="20" patternUnits="userSpaceOnUse"><path d="M0 10 H36" stroke="#70809a" stroke-width="3"/></pattern></defs><rect x="0" y="40" width="820" height="188" rx="12" fill="#202d42"/><path d="M0 60 H820 M0 210 H820" stroke="#aab7c9" stroke-width="2"/><rect x="0" y="125" width="820" height="20" fill="url(#lane)"/>
+    <g id="ego" transform="translate(110 88)"><rect x="-30" y="-17" width="60" height="34" rx="9" fill="#68dbce"/><rect x="5" y="-13" width="12" height="26" rx="3" fill="#183c49"/><text y="-31" text-anchor="middle" fill="#9df2e8">내 차</text><circle r="3" fill="white"/></g>
+    <g id="target" transform="translate(440 88)"><rect x="-30" y="-17" width="60" height="34" rx="9" fill="#b3a0ff"/><rect x="5" y="-13" width="12" height="26" rx="3" fill="#433b73"/><text y="-31" text-anchor="middle" fill="#d9cdff">앞차</text><circle r="3" fill="white"/></g>
+    <path id="distance-line" d="M110 160 H440" stroke="#68dbce" stroke-width="2"/><text id="distance-label" x="275" y="185" text-anchor="middle" fill="#dcf5f1">30.0 m</text><text x="20" y="257" fill="#8c9db7" font-size="13">흰 점 사이 거리 · 차량 그림은 실제 크기 비율이 아님 · 진행 방향 →</text>
+   </svg>
+   <div class="metrics"><div><small>가상 시간</small><strong id="time">0.00 <em>s</em></strong></div><div><small>상대 거리</small><strong id="range">30.0 <em>m</em></strong></div><div><small>충돌까지 예상 시간</small><strong id="ttc">3.00 <em>s</em></strong></div></div>
+   <label class="sr-only" for="timeline">가상 시간 이동</label><input id="timeline" type="range" min="0" max="125" value="0" step="1"><div class="timeline-labels"><span>0.00 s</span><span>2.50 s</span></div>
+   <div class="controls"><button id="play" class="primary">▶ 재생</button><button id="step">한 단계 +0.02 s</button><button id="boundary">경계 시점 1.00 s</button><button id="reset">처음으로</button></div>
+   <p class="hint" id="hint">재생하면 거리가 줄어들고, 1.00초에 TTC가 2.00초가 됩니다.</p>
+  </section>
+  <aside class="panel"><h2>지금 코드가 내린 판단</h2><div id="warning" class="warning">경고 OFF<span>충돌 경고 없음</span></div><dl><div><dt>요구사항의 기대값</dt><dd id="expected">OFF</dd></div><div><dt>C 코드의 실제 출력</dt><dd id="actual">OFF</dd></div><div><dt>현재 프레임 판정</dt><dd id="verdict">PASS</dd></div></dl><div class="rule"><b>우리의 학습용 요구사항</b><p>앞차에 접근하고 <strong>TTC ≤ 2.00 s</strong>이면 경고 ON.</p><p>그 외에는 OFF. 접근하지 않으면 TTC를 계산하지 않습니다.</p></div><p class="note">TTC = 거리 ÷ 접근 속도<br>경고만 평가합니다. 자동 제동은 없습니다.</p></aside>
+ </div>
+ <section class="panel evidence"><div class="panel-title"><div><h2>기존 테스트케이스 6개</h2><p>CSV에 적힌 기대값과 실제 C 실행 결과를 비교합니다.</p></div><strong id="case-count">실행 중</strong></div><div class="table-scroll"><table><thead><tr><th>테스트</th><th>거리 / 상대속도</th><th>기대 TTC / 경고</th><th>실제 TTC / 경고</th><th>판정</th></tr></thead><tbody id="cases"></tbody></table></div></section>
+ <section class="panel"><details><summary>실제로 실행한 C 코드 보기 <span>sil/fcw.c</span></summary><pre><code id="source"></code></pre></details></section>
+ <footer>이상적인 거리·속도 입력 → 호스트에서 컴파일한 C 프로그램 → 결과 재생. 20 ms는 가상 시간 간격이며 실시간 성능 검증이 아닙니다.<br>실제 레이더 센서·ECU·HIL 장비는 연결되어 있지 않습니다. 코드 수정은 서버를 다시 시작하면 반영됩니다.</footer>
+</main><script src="/app.js"></script></body></html>
